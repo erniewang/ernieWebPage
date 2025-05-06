@@ -1,38 +1,116 @@
-.App {
-  text-align: center;
-}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.app {
+    font-family: sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  /* HEADER RIGHT 33% (Desktop) */
+  .header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background: linear-gradient(to right, #ffffff, #dcdcdc);
+    padding: 10px;
+    z-index: 1000;
   }
-  to {
-    transform: rotate(360deg);
+  
+  /* Navigation icon boxes */
+  .nav-boxes {
+    display: flex;
+    gap: 2vw;
   }
-}
+  
+  .nav-box {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #000;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    transition: transform 0.2s, background-color 0.3s;
+  }
+  
+  .nav-box:hover {
+    transform: scale(1.05);
+  }
+  
+  .nav-box.active {
+    background-color: #333;
+  }
+  
+  .nav-icon {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+  
+  /* MAIN IMAGE AREA */
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease;
+    padding-top: 70px; /* Account for fixed header */
+  }
+  
+  .fade-in {
+    opacity: 1;
+  }
+  
+  .fade-out {
+    opacity: 0;
+  }
+  
+  .image-box {
+    width: 80%;
+    height: 80%;
+    border: 2px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-style: italic;
+    overflow: hidden;
+  }
+  
+  .image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+  
+  /* ----------------------------- */
+  /* MOBILE RESPONSIVE: header becomes bottom bar */
+  /* ----------------------------- */
+  @media (max-width: 768px) {
+    .header {
+      top: auto;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      justify-content: space-around;
+      padding: 10px 0;
+      background:rgb(209, 209, 209)
+    }
+  
+    .nav-box {
+      width: 60px;
+      height: 60px;
+    }
+  
+    .main-content {
+      padding-top: 0;
+      padding-bottom: 80px; /* Space for bottom nav */
+    }
+  }
+  
