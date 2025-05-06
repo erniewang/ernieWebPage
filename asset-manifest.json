@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ernie-portfolio/static/css/main.4ee59de8.css",
+    "main.js": "/ernie-portfolio/static/js/main.baf3893a.js",
+    "index.html": "/ernie-portfolio/index.html",
+    "main.4ee59de8.css.map": "/ernie-portfolio/static/css/main.4ee59de8.css.map",
+    "main.baf3893a.js.map": "/ernie-portfolio/static/js/main.baf3893a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4ee59de8.css",
+    "static/js/main.baf3893a.js"
+  ]
+}
