@@ -4,7 +4,7 @@ import Ernie from "./pages/ernie";
 import Projects from "./pages/projects";
 import Music from "./pages/music";
 import Photography from "./pages/photos";
-import { substituteChars } from "./subsituteChars";
+import { substituteChars } from "./componets/helperFunctions";
 
 const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];

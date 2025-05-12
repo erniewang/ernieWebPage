@@ -67,7 +67,7 @@
   .image-box {
     width: 90%;
     height: 85%;
-    border: 2px solid #000;
+    border: 2px solid #767676;
     display: flex;
     flex-direction: column;
     font-size: 2.8vh;

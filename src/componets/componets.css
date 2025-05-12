@@ -1,11 +1,35 @@
 .ContentObjectHolder {
     width: 95%;
-    border: 2px solid #535353;
+    border: 2px solid #9a9a9a;
     margin-top: 15px;
     margin-bottom: 25px;
-    display: flex;
+    overflow-x: scroll;
     border-radius: 4px;
+    display: flex;
     flex-direction: row;
+    gap: 3%;
     background: rgb(255, 253, 253);
     padding: 2.5%;
+    overflow-y: hidden;
 }
+
+.Img {
+    width: auto;
+    object-fit: contain;
+    border-radius: 4px;
+    max-height: 300px;
+}
+
+@media (max-width: 768px) {
+    .ContentObjectHolder {
+        width: 95%;
+        display: grid;
+    }
+    .Img {
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+        border-radius: 4px;
+    }
+  }
+  
