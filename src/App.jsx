@@ -6,7 +6,7 @@ import Music from "./pages/music";
 import Photography from "./pages/photos";
 import { substituteChars } from "./subsituteChars";
 
-const pages = ["Ernie", "Projects", "Music", "Photography"];
+const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];
 
 export default function App() {
@@ -51,9 +51,9 @@ export default function App() {
       <main className="main-content">
         <div className="image-box">
           {currentPage === 0 && <Ernie />}
-          {currentPage === 1 && <Projects />}
-          {currentPage === 2 && <Music />}
-          {currentPage === 3 && <Photography />}
+          {currentPage === 2 && <Projects />}
+          {currentPage === 3 && <Music />}
+          {currentPage === 1 && <Photography />}
         </div>
       </main>
     </div>
