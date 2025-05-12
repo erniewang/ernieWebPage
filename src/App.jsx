@@ -13,7 +13,7 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(0);
 
   async function handlePageChange(index) {
-    const audio = await new Audio(`sounds/${index}.mp3`);
+    const audio = await new Audio(`assets/sounds/${index}.mp3`);
     audio.play();
     if (index === currentPage) return;
     setCurrentPage(index);
@@ -40,7 +40,7 @@ export default function App() {
 
             >
               <img
-                src={`icons/${images[index]}`}
+                src={`assets/icons/${images[index]}`}
                 alt={title}
                 className="nav-icon"
               />
