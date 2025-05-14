@@ -28,7 +28,7 @@ export default function Ernie() {
         <p>
         I also love design and photography, and love traveling and being the most annoying tourist (yes, i am worse than those Chinese and Korean tourists. My photos within a week of travel are about 5 GB). Check out my photos in the photos section and here are some photos of myself!
         </p>
-        <ContentObjectHolder height={48} images={imageData} range={[0,4]}></ContentObjectHolder>
+        <ContentObjectHolder height={48} images={imageData} range={[0,4]} width={98}></ContentObjectHolder>
         <p>
             Outside of music, software, and design I also love to play video games, many of which are on roblox. Some of the best roblox games I played include Phantom Forces, Apocalypse Rising, Unit 1968, Blood and Iron, and Guts and Blackpowder. Other games I heartily enjoyed through my life include Minecraft , Super Mario, Warzone, Black Ops 2, and Call of Duty Modern Warfare. 
         </p>

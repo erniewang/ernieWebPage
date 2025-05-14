@@ -1,3 +1,5 @@
+import { ContentObject, ContentObjectHolder, DescriptionObjectHolder } from "../componets/contentObject";
+
 export default function Music() {
     return (
       <div>

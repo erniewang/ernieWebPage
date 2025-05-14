@@ -6,8 +6,7 @@ function ContentObject({image, neighbors, id, mode}) {
     return <div className="Img" style={{width: (!mode ? (widthD * 100) + "%" : "100%"), backgroundImage: `url(${image})`,}}></div>
 }
 
-function ContentObjectHolder({ height, images, range }) {
-
+function ContentObjectHolder({ height, images, range , width }) {
     const [phoneMode, setPhoneMode] = useState((window.outerWidth <= 768 ? true : false));
 
     function handleMediaChange(e) {
@@ -49,7 +48,7 @@ function ContentObjectHolder({ height, images, range }) {
     //console.log(neighbors.reduce((a, n) => a + n.ratio, 0));
 
     return (
-      <div className="ContentObjectHolder" style={{ height: height + "vh" }}>
+      <div className="ContentObjectHolder" style={{ height: height + "vh" , width: width + "%"}}>
         {images.map((img,key) => (
           <ContentObject image={img.src} key={key} id={key} neighbors={neighbors} mode={phoneMode}></ContentObject>
         ))}
@@ -57,11 +56,13 @@ function ContentObjectHolder({ height, images, range }) {
     );
 }
 
-function DescriptionObjectHolder({height}) {
-    return (
-        <div className="ContentObjectHolder" style={{ height: height + "vh" }}>
-        </div>
-    );
+function DescriptionObjectHolder({ height, children }) {
+  return (
+    <div className="DescriptionObjectHolder" style={{ height: height + "vh" }}>
+      {children}
+    </div>
+  );
 }
+
 
 export {ContentObject, ContentObjectHolder, DescriptionObjectHolder};

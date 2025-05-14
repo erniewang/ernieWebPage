@@ -1,17 +1,26 @@
-.ContentObjectHolder {
-    width: 98%;
-    border: 2px solid #9a9a9a;
-    margin-top: 15px;
-    margin-bottom: 25px;
-    overflow-y: hidden;
-    overflow-x: scroll;
-    border-radius: 4px;
-    display: flex;
-    flex-direction: row;
-    gap: 2.5vh;
-    background: rgb(255, 253, 253);
-    padding: 10px;
+.ContentObjectHolder, .DescriptionObjectHolder {
+  width: 98%;
+  border: 2px solid #9a9a9a;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  overflow-y: hidden;
+  overflow-x: scroll;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 2.5vh;
+  background: rgb(255, 253, 253);
+  padding: 10px;
 }
+
+.DescriptionObjectHolder {
+  justify-content: space-between;
+}
+
+.DescriptionObjectHolder > * {
+  flex: 1;
+}
+
 
 .Img {
     height: 100%;
@@ -27,6 +36,10 @@
         grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); /* Ensure at least 2 items per row */
         gap: 2.5vh; /* Maintain consistent spacing */
         overflow-x: hidden; /* Disable horizontal scrolling for grid */
+    }
+    .DescriptionObjectHolder {
+        flex-direction: column;
+        overflow-y: scroll;
     }
     .Img {
         width: 100vh;
