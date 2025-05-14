@@ -1,11 +1,12 @@
 import "./componets.css";
 
-function ContentObject({image, neighbors, id}) {
+function ContentObject({image, neighbors, id, mode}) {
     const widthD = neighbors.find(item => item.index === id).ratio;
-    return <div className="Img" style={{width: (widthD * 100) + "%", backgroundImage: `url(${image})`,}}></div>
+    return <div className="Img" style={{width: (!mode ? (widthD * 100) + "%" : "100%"), backgroundImage: `url(${image})`,}}></div>
 }
 
-function ContentObjectHolder({ height, images }) {
+function ContentObjectHolder({ height, images, range, phonemode }) {
+    images = images.slice(range[0],range[1]);
     const imageNormalized = images.map((image, index) => ({
         src: image.src,
         w: (1 / image.height) * image.width,
@@ -27,10 +28,17 @@ function ContentObjectHolder({ height, images }) {
     return (
       <div className="ContentObjectHolder" style={{ height: height + "vh" }}>
         {images.map((img,key) => (
-          <ContentObject image={img.src} key={key} id={key} neighbors={neighbors}></ContentObject>
+          <ContentObject image={img.src} key={key} id={key} neighbors={neighbors} mode={phonemode}></ContentObject>
         ))}
       </div>
     );
-  }
+}
 
-export {ContentObject, ContentObjectHolder};
+function DescriptionObjectHolder({height}) {
+    return (
+        <div className="ContentObjectHolder" style={{ height: height + "vh" }}>
+        </div>
+    );
+}
+
+export {ContentObject, ContentObjectHolder, DescriptionObjectHolder};

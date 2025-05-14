@@ -1,0 +1,16 @@
+/* Style for headings */
+h2 {
+    margin-bottom: 9px;
+}
+
+/* Style for small tags */
+small {
+    margin-top: 0px;
+    display: block; /* ensures it respects top margin */
+}
+
+/* Style for paragraphs */
+p {
+    margin-top: 5px;
+    margin-bottom: 35px;
+}

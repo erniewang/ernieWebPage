@@ -10,12 +10,12 @@ async function loadImage(src) {
       };
       img.onerror = reject;
       img.src = src;
-      console.log("loading ", img.src);
+      //console.log("loading ", img.src);
     });
   }
 
 async function imagesLoad(imageList) {
-    return Promise.all(imageList.map(src => loadImage(`assets/images/${src}.jpg`))); // or whatever path
+    return Promise.all(imageList.map(src => loadImage(`assets/images/${src}10X.jpg`))); // or whatever path
 }
 
 const latinCry = {

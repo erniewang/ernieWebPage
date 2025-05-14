@@ -3,8 +3,8 @@
     border: 2px solid #9a9a9a;
     margin-top: 15px;
     margin-bottom: 25px;
-    overflow-y: scroll;
-    overflow-x: hidden;
+    overflow-y: hidden;
+    overflow-x: scroll;
     border-radius: 4px;
     display: flex;
     flex-direction: row;
@@ -22,6 +22,12 @@
 }
 
 @media (max-width: 768px) {
+    .ContentObjectHolder {
+        display: grid; /* Switch to grid layout */
+        grid-template-columns: repeat(auto-fit, minmax(45%, 1fr)); /* Ensure at least 2 items per row */
+        gap: 2.5vh; /* Maintain consistent spacing */
+        overflow-x: hidden; /* Disable horizontal scrolling for grid */
+    }
     .Img {
         width: 100vh;
         max-width: 100%;
