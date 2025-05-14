@@ -1,11 +1,35 @@
 import "./componets.css";
+import { useEffect, useState } from "react";
 
 function ContentObject({image, neighbors, id, mode}) {
     const widthD = neighbors.find(item => item.index === id).ratio;
     return <div className="Img" style={{width: (!mode ? (widthD * 100) + "%" : "100%"), backgroundImage: `url(${image})`,}}></div>
 }
 
-function ContentObjectHolder({ height, images, range, phonemode }) {
+function ContentObjectHolder({ height, images, range }) {
+
+    const [phoneMode, setPhoneMode] = useState((window.outerWidth <= 768 ? true : false));
+
+    function handleMediaChange(e) {
+        if (e.matches) {
+            setPhoneMode(true);
+        } else {
+            // Media query no longer matches
+            setPhoneMode(false);
+        }
+    }
+
+// Attach listener
+    useEffect(() => {
+        console.log("changed");
+        const mediaMode = window.matchMedia("(max-width: 768px)");
+        mediaMode.addEventListener("change", handleMediaChange);
+        return () => {
+            mediaMode.removeEventListener("change", handleMediaChange);
+        };
+    }, []); // <- empty dependency array = run only once
+
+
     images = images.slice(range[0],range[1]);
     const imageNormalized = images.map((image, index) => ({
         src: image.src,
@@ -28,7 +52,7 @@ function ContentObjectHolder({ height, images, range, phonemode }) {
     return (
       <div className="ContentObjectHolder" style={{ height: height + "vh" }}>
         {images.map((img,key) => (
-          <ContentObject image={img.src} key={key} id={key} neighbors={neighbors} mode={phonemode}></ContentObject>
+          <ContentObject image={img.src} key={key} id={key} neighbors={neighbors} mode={phoneMode}></ContentObject>
         ))}
       </div>
     );
