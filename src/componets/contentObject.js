@@ -21,7 +21,6 @@ function ContentObjectHolder({ height, images, range }) {
 
 // Attach listener
     useEffect(() => {
-        console.log("changed");
         const mediaMode = window.matchMedia("(max-width: 768px)");
         mediaMode.addEventListener("change", handleMediaChange);
         return () => {
