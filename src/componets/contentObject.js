@@ -56,9 +56,9 @@ function ContentObjectHolder({ height, images, range , width }) {
     );
 }
 
-function DescriptionObjectHolder({ height, children }) {
+function DescriptionObjectHolder({ height, children, width }) {
   return (
-    <div className="DescriptionObjectHolder" style={{ height: height + "vh" }}>
+    <div className="DescriptionObjectHolder" style={{ height: height + "vh", width: width+"%" }}>
       {children}
     </div>
   );

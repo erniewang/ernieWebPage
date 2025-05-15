@@ -5,7 +5,11 @@ import Projects from "./pages/projects";
 import Music from "./pages/music";
 import Photography from "./pages/photos";
 import { substituteChars } from "./componets/helperFunctions";
-import { connectOnedrive } from "./onedriveAPI";
+import { connectOnedrive, getMyOneDriveFiles } from "./onedriveAPI";
+
+//onedrive connection testing area
+
+
 
 const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];
@@ -30,6 +34,7 @@ export default function App() {
     <div className="app">
       <header className="header">
         <div id="optionalName"><h1>Еrпіе Wапg ┊ 王富陽  </h1></div>
+        <button onClick={connectOnedrive} style={{display: "none"}}>Test Api</button>
         <div className="nav-boxes">
           {pages.map((title, index) => (
             <div

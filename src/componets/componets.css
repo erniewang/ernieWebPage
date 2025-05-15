@@ -1,6 +1,6 @@
 .ContentObjectHolder, .DescriptionObjectHolder {
   width: 98%;
-  border: 2px solid #9a9a9a;
+  border: 2px solid #cecdcd;
   margin-top: 15px;
   margin-bottom: 25px;
   overflow-y: hidden;
@@ -15,6 +15,8 @@
 
 .DescriptionObjectHolder {
   justify-content: space-between;
+  margin: 0;
+  margin-bottom: 15px;
 }
 
 .DescriptionObjectHolder > * {
