@@ -31,7 +31,7 @@ async function connectOnedrive() {
 }
 
 // --- How to use it (no changes here, but ensure it's called appropriately) ---
-async function getMyOneDriveFiles() {
+async function getMyOneDriveFiles(range) {
     let tokenResponse = {};
     if (localStorage.getItem("graphSessionToken") === null) {
         tokenResponse = await connectOnedrive(); 
@@ -42,23 +42,21 @@ async function getMyOneDriveFiles() {
 
     const accessToken = tokenResponse.accessToken;
     localStorage.setItem("graphSessionToken", accessToken);
-    const graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/drive/root/children";
+    const graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/drive/root:/PhotographyFiles/Speedrun:/children?$select=name";
     const response = await fetch(graphApiEndpoint, {
-    headers: {
-        Authorization: `Bearer ${accessToken}`
-    }
-    });
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+    }});
 
+
+    //how would i list files from range[0] to range[1]. the files are indexed by 0.jpg 1.jpg.... 1700.jpg.. end
     if (response.ok) {
         const data = await response.json();
-        console.log(data.value[7]);
-        return data.value[7];
+        console.log(data.value);
+        return data.value;
     } else {
         console.error("problem", response.status, await response.text());
     }
 }
 
-async function getFilesByIndex([]) {
-
-}
 export { connectOnedrive, getMyOneDriveFiles };
