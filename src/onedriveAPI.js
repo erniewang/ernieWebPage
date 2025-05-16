@@ -24,9 +24,12 @@ async function connectOnedrive() {
       scopes: ["Files.Read"]
     };
     const tokenResponse = await msalInstance.acquireTokenSilent(accessTokenRequest); //log in
+
+    localStorage.setItem("graphSessionToken", tokenResponse.accessToken); //save the token locally
+
     return tokenResponse;
   } catch (error) {
-    console.error("Error during login or token acquisition:", error);
+        console.log(error);
   }
 }
 
@@ -55,7 +58,9 @@ async function getMyOneDriveFiles(range) {
         console.log(data.value);
         return data.value;
     } else {
-        console.error("problem", response.status, await response.text());
+        if (response.status == 401) {
+            tokenResponse = await connectOnedrive(); 
+        }
     }
 }
 
