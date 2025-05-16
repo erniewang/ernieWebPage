@@ -5,7 +5,7 @@ async function connectOnedrive() {
   const msalConfig = {
     auth: {
       clientId: "d2c531ce-d0fa-43d7-850e-dc408fd0498e", // Your app's client ID
-      redirectUri: "http://localhost:3000", // Your app's redirect URI
+      redirectUri: "http://localhost:3000", //return address after authentication
     },
   };
 
@@ -27,62 +27,38 @@ async function connectOnedrive() {
     return tokenResponse;
   } catch (error) {
     console.error("Error during login or token acquisition:", error);
-    // Handle error, perhaps try acquireTokenPopup if silent fails
-    if (error instanceof msal.InteractionRequiredAuthError || 
-        error.errorCode === "user_login_error" || // Added for cases where silent might fail after a page reload before full init
-        error.errorCode === "no_account_in_silent_request") { // If silent call fails due to no active account
-      try {
-        const loginResponse = await msalInstance.loginPopup(loginRequest); // Fallback to popup
-        const accessTokenRequest = {
-          account: loginResponse.account,
-          scopes: ["Files.Read"]
-        };
-        return await msalInstance.acquireTokenSilent(accessTokenRequest); // Try silent again after popup
-      } catch (popupError) {
-        console.error("Error during popup login fallback:", popupError);
-        throw popupError;
-      }
-    }
-    throw error; // Re-throw other errors
   }
 }
 
 // --- How to use it (no changes here, but ensure it's called appropriately) ---
 async function getMyOneDriveFiles() {
-  try {
-    const tokenResponse = await connectOnedrive(); // This now calls the async version
-
-    if (tokenResponse && tokenResponse.accessToken) {
-      const accessToken = tokenResponse.accessToken;
-      console.log("Access Token Obtained!");
-
-      const graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/drive/root/children";
-
-      const response = await fetch(graphApiEndpoint, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Files in your OneDrive root:", data.value);
-        return data.value;
-      } else {
-        console.error("Error fetching files:", response.status, await response.text());
-        // Log the error response body for more details
-        const errorBody = await response.text();
-        console.error("Error response body:", errorBody);
-      }
+    let tokenResponse = {};
+    if (localStorage.getItem("graphSessionToken") === null) {
+        tokenResponse = await connectOnedrive(); 
     }
-  } catch (error) {
-    console.error("Failed to get OneDrive files:", error);
-  }
+    else {
+        tokenResponse.accessToken = localStorage.getItem("graphSessionToken");
+    }
+
+    const accessToken = tokenResponse.accessToken;
+    localStorage.setItem("graphSessionToken", accessToken);
+    const graphApiEndpoint = "https://graph.microsoft.com/v1.0/me/drive/root/children";
+    const response = await fetch(graphApiEndpoint, {
+    headers: {
+        Authorization: `Bearer ${accessToken}`
+    }
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        console.log(data.value[7]);
+        return data.value[7];
+    } else {
+        console.error("problem", response.status, await response.text());
+    }
 }
 
-// To actually run it (e.g., when a user clicks a "Connect to OneDrive" button):
-// document.getElementById('yourConnectButtonId').addEventListener('click', async () => {
-//   await getMyOneDriveFiles();
-// });
+async function getFilesByIndex([]) {
 
+}
 export { connectOnedrive, getMyOneDriveFiles };

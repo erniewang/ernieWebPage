@@ -9,12 +9,11 @@ import { connectOnedrive, getMyOneDriveFiles } from "./onedriveAPI";
 
 //onedrive connection testing area
 
-
-
 const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];
 
 export default function App() {
+  //states
   const [currentPage, setCurrentPage] = useState(0);
 
   async function handlePageChange(index) {
@@ -24,9 +23,10 @@ export default function App() {
     setCurrentPage(index);
   }
 
-  useEffect(() => {
-    substituteChars();
-  }, [currentPage]);
+    //effects
+    useEffect(() => {
+        substituteChars();
+    }, [currentPage]);
 
   
 
@@ -34,7 +34,6 @@ export default function App() {
     <div className="app">
       <header className="header">
         <div id="optionalName"><h1>Еrпіе Wапg ┊ 王富陽  </h1></div>
-        <button onClick={connectOnedrive} style={{display: "none"}}>Test Api</button>
         <div className="nav-boxes">
           {pages.map((title, index) => (
             <div
