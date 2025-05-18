@@ -5,7 +5,6 @@ import Projects from "./pages/projects";
 import Music from "./pages/music";
 import Photography from "./pages/photos";
 import { substituteChars } from "./componets/helperFunctions";
-import { connectOnedrive, getMyOneDriveFiles } from "./onedriveAPI";
 
 //onedrive connection testing area
 
