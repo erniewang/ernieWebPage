@@ -18,6 +18,9 @@ async function imagesLoad(imageList) {
     return Promise.all(imageList.map(src => loadImage(`assets/images/${src}10X.jpg`))); // or whatever path
 }
 
+async function imagesLinkLoad(imageList) {
+    return Promise.all(imageList.map(src => loadImage(src))); 
+}
 const latinCry = {
     A: 'А', a: 'а',
     B: 'В', b: 'Ь',  // lowercase b doesn't have a perfect match
@@ -59,4 +62,4 @@ function substituteChars() {
     });
   }
   
-export {substituteChars, loadImage, imagesLoad};
+export {substituteChars, loadImage, imagesLoad, imagesLinkLoad};

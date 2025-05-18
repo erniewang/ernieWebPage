@@ -1,11 +1,14 @@
 import { ContentObject, ContentObjectHolder, DescriptionObjectHolder } from "../componets/contentObject";
+import { fetchSingleFile, fetchFilesRange } from "../googleDriveApi";
+import { useState,useEffect } from "react";
 
 export default function Photography() {
+    const [imageData, setImageData] = useState([]); //has a state for loading the images 
+
     return (
       <div>
         <h2>Photography</h2>
         <p>I have traveled to over 20 countries, most of them in europe and china. My photograhy gear is just a phone camera for now. I am not well versed in photographer technology and scientifics, however I wish to learn them and have higher controll over my photographs in the future. Check out my photos!</p>
-        <DescriptionObjectHolder height={43}></DescriptionObjectHolder>
       </div>
 
     );
