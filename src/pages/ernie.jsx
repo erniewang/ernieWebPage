@@ -8,7 +8,7 @@ export default function Ernie() {
 
     useEffect(() => {
         (async function () {
-            const loaded = await imagesLoad(images);
+            const loaded = await imagesLoad(images, false);
             setImageData(loaded);
         })(); 
     }, []);

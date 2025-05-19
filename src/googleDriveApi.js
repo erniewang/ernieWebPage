@@ -2,6 +2,7 @@ const API_KEY = 'AIzaSyAtKk1z7q-q4EVdp_UCVb1QvzrHeQiSM_0';
 const FOLDER_ID = '1CxwW-QmWohin9ZwJE2VUKNuOPSosMe1x';
 
 var imageFiles = JSON.parse(localStorage.getItem("fileNames"));
+console.log(imageFiles);
 
 //0 to 48 vienna
 //49 to 71 bratislava

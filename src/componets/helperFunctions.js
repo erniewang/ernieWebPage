@@ -13,24 +13,39 @@ async function loadImage(src) {
       img.src = src;
       //console.log("loading ", img.src);
     });
-  }
-
-async function imagesLoad(imageList) {
-    return Promise.all(imageList.map(src => loadImage(`assets/images/${src}10X.jpg`))); // or whatever path
 }
 
-async function loadImageDrive(src) {
-  const fileId = src.match(/[-\w]{25,}/)[0];
-  const url = `https://drive.google.com/uc?export=view&id=${fileId}`;
-  console.log("fetching image from fucking public viewable google drie, dumbass bitchass google will block it ", url);
+async function loadImageDrive(fileId) {
+  // 1. Fetch the binary
+  const url = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media&key=${API_KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Drive API error ${res.status}`);
+  }
+  const blob = await res.blob();
 
+  // 2. Make a blob‑URL
+  const blobUrl = URL.createObjectURL(blob);
+
+  // 3. Return a promise that resolves with {src,width,height}
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.crossOrigin = "anonymous"; // optional, allows canvas usage
-    img.onload = () => resolve(img);
-    img.onerror = () => reject(new Error("Failed to load image"));
-    img.src = url;
+    img.onload = () => {
+      resolve({
+        src: blobUrl,
+        width: img.width,
+        height: img.height,
+      });
+    };
+    img.onerror = reject;
+    img.src = blobUrl;
   });
+}
+
+
+async function imagesLoad(imageList, driveMode) {
+    console.log("mapping image list ", imageList);
+    return !driveMode ? Promise.all(imageList.map(src => loadImage(`assets/images/${src}10X.jpg`))) : Promise.all(imageList.map(src => loadImageDrive(src))); // or whatever path
 }
 
 
