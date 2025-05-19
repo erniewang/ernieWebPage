@@ -1,9 +1,27 @@
 import { ContentObject, ContentObjectHolder, DescriptionObjectHolder } from "../componets/contentObject";
 import { fetchSingleFile, fetchFilesRange } from "../googleDriveApi";
 import { useState,useEffect } from "react";
+import { loadImageDrive } from "../componets/helperFunctions";
+
+let images = fetchFilesRange(885,900);
 
 export default function Photography() {
+
     const [imageData, setImageData] = useState([]); //has a state for loading the images 
+
+
+    useEffect(() => {
+    (async function () {
+        const loaded = [];
+        for (const element of images) {
+            const img = await loadImageDrive(element);
+            loaded.push(img);
+            console.log("loaded", img);
+        }
+        setImageData(loaded);
+    })();
+    }, []);
+
 
     return (
       <div>

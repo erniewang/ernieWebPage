@@ -79,22 +79,15 @@ const fetchAllFiles = async () => {
   return correct;
 };
 
-const fetchSingleFile = async (FILE_NAME) => {
-    const imageID = imageFiles[FILE_NAME].id;
-    const imageUrl = `https://drive.google.com/uc?export=view&id=${imageID}`;
-    return imageUrl;
-};
 
-async function fetchFilesRange(start, end) {
-    start = 890;
-    end = 901;
+function fetchFilesRange(start, end) {
     let files = [];
     for (let i = start; i < end+1; i++) {
-        files.push(await fetchSingleFile(i));
+        files.push(imageFiles[i].id);
     }
-    console.log(files);
+    //console.log(files);
     return files;
 }
 
 
-export { fetchAllFiles, fetchSingleFile , fetchFilesRange};
+export { fetchAllFiles, fetchFilesRange};

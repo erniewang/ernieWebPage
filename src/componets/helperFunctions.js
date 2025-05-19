@@ -1,3 +1,4 @@
+const API_KEY = "AIzaSyAtKk1z7q-q4EVdp_UCVb1QvzrHeQiSM_0";
 async function loadImage(src) {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -18,9 +19,21 @@ async function imagesLoad(imageList) {
     return Promise.all(imageList.map(src => loadImage(`assets/images/${src}10X.jpg`))); // or whatever path
 }
 
-async function imagesLinkLoad(imageList) {
-    return Promise.all(imageList.map(src => loadImage(src))); 
+async function loadImageDrive(src) {
+  const fileId = src.match(/[-\w]{25,}/)[0];
+  const url = `https://drive.google.com/uc?export=view&id=${fileId}`;
+  console.log("fetching image from fucking public viewable google drie, dumbass bitchass google will block it ", url);
+
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // optional, allows canvas usage
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Failed to load image"));
+    img.src = url;
+  });
 }
+
+
 const latinCry = {
     A: 'А', a: 'а',
     B: 'В', b: 'Ь',  // lowercase b doesn't have a perfect match
@@ -62,4 +75,4 @@ function substituteChars() {
     });
   }
   
-export {substituteChars, loadImage, imagesLoad, imagesLinkLoad};
+export {substituteChars, loadImage, imagesLoad, loadImageDrive};
