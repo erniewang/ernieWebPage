@@ -2,13 +2,16 @@ import { useState, useEffect } from "react";
 import { ContentObject, ContentObjectHolder } from "../componets/contentObject";
 import { loadImage, imagesLoad } from "../componets/helperFunctions";
 
-const images = ["salzburg", "warsaw", "romania","jacksons", "train1", "train2","cope","cope2"];
+const images = ["salzburg", "gdansk","jacksons", "hrvatska", "train2", "train3", "brasov"];
+
 export default function Ernie() {
+
+    //authenticate google 
     const [imageData, setImageData] = useState([]); //has a state for loading the images 
 
     useEffect(() => {
         (async function () {
-            const loaded = await imagesLoad(images);
+            const loaded = await imagesLoad(images, false);
             setImageData(loaded);
         })(); 
     }, []);
@@ -34,7 +37,7 @@ export default function Ernie() {
         </p>
 
         <p>I’m the kind of person who values precision, clarity and impact. Whether I’m writing code, designing something or deep in a game, I want things that work. No fluff, no hand holding. If an idea doesn’t map cleanly to a useful outcome, I’ll scrap it without hesitation. I lean hard into systems that reward both logic and creativity and I push until I understand how things actually function under the surface.</p>
-        <ContentObjectHolder height={40} images={imageData} range={[4,8]}></ContentObjectHolder>
+        <ContentObjectHolder height={40} images={imageData} range={[4,7]}></ContentObjectHolder>
         <p>My style is focused and intentional. I like to go straight to the core of a problem, rip out the noise and get to what actually matters. If I’m learning something, I want the 20 percent that gives me 80 percent of the result. If I’m playing, I want tight mechanics and depth, not mindless grind. I don't care for sugarcoating or vague inspiration. Just show me what works and why.</p>
 
         <p>I also value control. That’s part of why I like coding and software. There’s a kind of power in being able to build from scratch or tweak something until it finally clicks. It’s frustrating sometimes, sure, but the feeling when things work because you made them work? That’s it. That’s the hook. Same thing with design, finding the line between function and feel.</p>

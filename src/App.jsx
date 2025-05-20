@@ -6,10 +6,10 @@ import Music from "./pages/music";
 import Photography from "./pages/photos";
 import { substituteChars } from "./componets/helperFunctions";
 
-//onedrive connection testing area
-
+//icons
 const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];
+
 
 export default function App() {
   //states

@@ -1,68 +1,79 @@
 import "./componets.css";
 import { useEffect, useState } from "react";
+import { loadImage } from "./helperFunctions";
 
-function ContentObject({image, neighbors, id, mode}) {
-    const widthD = neighbors.find(item => item.index === id).ratio;
-    return <div className="Img" style={{width: (!mode ? (widthD * 100) + "%" : "100%"), backgroundImage: `url(${image})`,}}></div>
+// ContentObject: displays a single image, lazy-loads high-res
+function ContentObject({ image, neighbors, id, mode }) {
+  const [largeImageLoaded, setLargeImageLoaded] = useState(image);
+
+  useEffect(() => {
+    (async () => {
+      const largeImageUrl = image.replace("smaller_images/", "").replace("_10X", "");
+      await loadImage(largeImageUrl);
+      setLargeImageLoaded(largeImageUrl);
+    })();
+  }, []);
+
+  const widthD = neighbors.find(item => item.index === id).ratio;
+  return (
+    <div
+      className="Img"
+      style={{
+        width: !mode ? (widthD * 100) + "%" : "100%",
+        backgroundImage: `url(${largeImageLoaded})`
+      }}
+    />
+  );
 }
 
-function ContentObjectHolder({ height, images, range , width }) {
-    const [phoneMode, setPhoneMode] = useState((window.outerWidth <= 768 ? true : false));
+// ContentObjectHolder: holds & sizes images responsively
+function ContentObjectHolder({ height, images, range, width }) {
+  const [phoneMode, setPhoneMode] = useState(window.innerWidth <= 768);
 
-    function handleMediaChange(e) {
-        if (e.matches) {
-            setPhoneMode(true);
-        } else {
-            // Media query no longer matches
-            setPhoneMode(false);
-        }
-    }
+  useEffect(() => {
+    const media = window.matchMedia("(max-width: 768px)");
+    const handler = e => setPhoneMode(e.matches);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, []);
 
-// Attach listener
-    useEffect(() => {
-        const mediaMode = window.matchMedia("(max-width: 768px)");
-        mediaMode.addEventListener("change", handleMediaChange);
-        return () => {
-            mediaMode.removeEventListener("change", handleMediaChange);
-        };
-    }, []); // <- empty dependency array = run only once
+  const displayImages = images.slice(range[0], range[1]);
+  const imageNormalized = displayImages.map((img, i) => ({
+    src: img.src,
+    w: img.width / img.height,
+    h: 1,
+    index: i
+  }));
+  const totalWidth = imageNormalized.reduce((a, img) => a + img.w, 0);
+  const ratioNW = 1 / totalWidth;
+  const neighbors = imageNormalized.map(img => ({
+    src: img.src,
+    ratio: ratioNW * img.w,
+    index: img.index
+  }));
 
-
-    images = images.slice(range[0],range[1]);
-    const imageNormalized = images.map((image, index) => ({
-        src: image.src,
-        w: (1 / image.height) * image.width,
-        h: 1,
-        index: index // Optional here, but could be useful later
-    }));
-    
-    const totalWidth = imageNormalized.reduce((a, img) => a + img.w, 0);
-    const ratioNW = 1 / totalWidth;
-    
-    const neighbors = imageNormalized.map((img, index) => ({
-        src: img.src,
-        ratio: ratioNW * img.w,
-        index: index // 👈 Included here
-    }));
-
-    //console.log(neighbors.reduce((a, n) => a + n.ratio, 0));
-
-    return (
-      <div className="ContentObjectHolder" style={{ height: height + "vh" , width: width + "%"}}>
-        {images.map((img,key) => (
-          <ContentObject image={img.src} key={key} id={key} neighbors={neighbors} mode={phoneMode}></ContentObject>
-        ))}
-      </div>
-    );
+  return (
+    <div className="ContentObjectHolder" style={{ height: `${height}vh`, width: `${width}%` }}>
+      {displayImages.map((img, key) => (
+        <ContentObject
+          image={img.src}
+          key={key}
+          id={key}
+          neighbors={neighbors}
+          mode={phoneMode}
+        />
+      ))}
+    </div>
+  );
 }
 
+// DescriptionObjectHolder: just a wrapper for layout
 function DescriptionObjectHolder({ height, children, width }) {
   return (
-    <div className="DescriptionObjectHolder" style={{ height: height + "vh", width: width+"%" }}>
+    <div className="DescriptionObjectHolder" style={{ height: `${height}vh`, width: `${width}%` }}>
       {children}
     </div>
   );
 }
 
-
-export {ContentObject, ContentObjectHolder, DescriptionObjectHolder};
+export { ContentObject, ContentObjectHolder, DescriptionObjectHolder };
