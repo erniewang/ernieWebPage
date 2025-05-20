@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import Ernie from "./pages/ernie";
 import Projects from "./pages/projects";
@@ -10,9 +10,16 @@ import { substituteChars } from "./componets/helperFunctions";
 const pages = ["Ernie",  "Photography", "Projects", "Music"];
 const images = ["face.jpg", "camera.jpg", "toolbox.jpg", "radio.jpg"];
 
+//controller?
 
 export default function App() {
-  //states
+
+
+  //ref
+  const controllerRef = useRef();
+  controllerRef.current = new AbortController();
+  
+  //use state
   const [currentPage, setCurrentPage] = useState(0);
 
   async function handlePageChange(index) {

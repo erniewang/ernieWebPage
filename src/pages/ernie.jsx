@@ -4,8 +4,8 @@ import { loadImage, imagesLoad } from "../componets/helperFunctions";
 
 const images = ["salzburg", "gdansk","jacksons", "hrvatska", "train2", "train3", "brasov"];
 
-export default function Ernie() {
 
+export default function Ernie() {
     const [imageData, setImageData] = useState([]); //has a state for loading the images 
 
     useEffect(() => {

@@ -9,6 +9,7 @@ var imagekit = new ImageKit({
 
 // ContentObject: displays a single image, lazy-loads high-res
 function ContentObject({ image, neighbors, id, mode, spreadFactor=1, imageKit }) {
+
   const [largeImageLoaded, setLargeImageLoaded] = useState(image);
 
   useEffect(() => {
@@ -20,12 +21,14 @@ function ContentObject({ image, neighbors, id, mode, spreadFactor=1, imageKit })
       }
       else {
         const fileName = image.replace("assets/images/speedRun/","");
+        /*
         const imageURL = imagekit.url({
             path: `/speedRun2/${fileName}`,
             urlEndpoint: "https://ik.imagekit.io/ernestwangphotos",
         });
-        await loadImage(imageURL);
-        setLargeImageLoaded(imageURL);
+        */
+        //await loadImage(imageURL);
+        //setLargeImageLoaded(imageURL);
 
       }
     })();

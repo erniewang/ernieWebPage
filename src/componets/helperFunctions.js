@@ -1,5 +1,5 @@
 
-async function loadImage(src) {
+async function loadImage(src, signal) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => {
