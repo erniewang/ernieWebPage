@@ -1,7 +1,3 @@
-// In src/componets/helperFunctions.js (and any other relevant files)
-// In src/componets/helperFunctions.js
-
-
 
 async function loadImage(src) {
     return new Promise((resolve, reject) => {
@@ -19,8 +15,8 @@ async function loadImage(src) {
     });
   }
 
-async function imagesLoad(imageList) {
-    return Promise.all(imageList.map(src => loadImage(`assets/images/smaller_images/${src}_10X.jpg`))); // or whatever path
+async function imagesLoad(imageList, path) {
+    return !path? Promise.all(imageList.map(src => loadImage(`assets/images/smaller_images/${src}_10X.jpg`))) : Promise.all(imageList.map(src => loadImage(`assets/images/speedRun/${src}.jpg`))); // or whatever path
 }
 
 const latinCry = {

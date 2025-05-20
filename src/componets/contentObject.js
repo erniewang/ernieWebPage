@@ -1,16 +1,33 @@
 import "./componets.css";
 import { useEffect, useState } from "react";
 import { loadImage } from "./helperFunctions";
+import ImageKit from "imagekit-javascript";
+
+var imagekit = new ImageKit({
+    urlEndpoint: "https://ik.imagekit.io/ernestwangphotos"
+});
 
 // ContentObject: displays a single image, lazy-loads high-res
-function ContentObject({ image, neighbors, id, mode }) {
+function ContentObject({ image, neighbors, id, mode, spreadFactor=1, imageKit }) {
   const [largeImageLoaded, setLargeImageLoaded] = useState(image);
 
   useEffect(() => {
     (async () => {
-      const largeImageUrl = image.replace("smaller_images/", "").replace("_10X", "");
-      await loadImage(largeImageUrl);
-      setLargeImageLoaded(largeImageUrl);
+      if (!imageKit) {
+        const largeImageUrl = image.replace("smaller_images/", "").replace("_10X", "");
+        await loadImage(largeImageUrl);
+        setLargeImageLoaded(largeImageUrl);
+      }
+      else {
+        const fileName = image.replace("assets/images/speedRun/","");
+        const imageURL = imagekit.url({
+            path: `/speedRun2/${fileName}`,
+            urlEndpoint: "https://ik.imagekit.io/ernestwangphotos",
+        });
+        await loadImage(imageURL);
+        setLargeImageLoaded(imageURL);
+
+      }
     })();
   }, []);
 
@@ -19,7 +36,7 @@ function ContentObject({ image, neighbors, id, mode }) {
     <div
       className="Img"
       style={{
-        width: !mode ? (widthD * 100) + "%" : "100%",
+        width: !mode ? (widthD * 100 * spreadFactor) + "%" : (100 * spreadFactor).toString()+"%",
         backgroundImage: `url(${largeImageLoaded})`
       }}
     />
@@ -27,7 +44,7 @@ function ContentObject({ image, neighbors, id, mode }) {
 }
 
 // ContentObjectHolder: holds & sizes images responsively
-function ContentObjectHolder({ height, images, range, width }) {
+function ContentObjectHolder({ height, images, range, width ,spreadFactor = 1, imageKit=false }) {
   const [phoneMode, setPhoneMode] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
@@ -53,6 +70,7 @@ function ContentObjectHolder({ height, images, range, width }) {
   }));
 
   return (
+    <div>
     <div className="ContentObjectHolder" style={{ height: `${height}vh`, width: `${width}%` }}>
       {displayImages.map((img, key) => (
         <ContentObject
@@ -61,8 +79,11 @@ function ContentObjectHolder({ height, images, range, width }) {
           id={key}
           neighbors={neighbors}
           mode={phoneMode}
+          spreadFactor={spreadFactor}
+          imageKit={imageKit}
         />
       ))}
+    </div>
     </div>
   );
 }
