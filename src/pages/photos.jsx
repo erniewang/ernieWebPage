@@ -1,7 +1,6 @@
 import { ContentObject, ContentObjectHolder, DescriptionObjectHolder } from "../componets/contentObject";
 import { useEffect, useState } from "react";
 import { imagesLoad } from "../componets/helperFunctions";
-import { useAbortController } from "../abortController";
 
 
 const imageSRC = (Array.from({ length: 1100 - 1090 + 1 }, (_, i) => 1010 + i)).map((x) => x.toString());
@@ -9,7 +8,7 @@ const imageSRC = (Array.from({ length: 1100 - 1090 + 1 }, (_, i) => 1010 + i)).m
 export default function Photography() {
 
     const [imageData, setImageData] = useState([]); //has a state for loading the images 
-
+    
     useEffect(() => {
         (async function () {
             const loaded = await imagesLoad(imageSRC, true);

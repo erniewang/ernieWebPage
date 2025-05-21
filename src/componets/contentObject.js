@@ -1,5 +1,5 @@
 import "./componets.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { loadImage } from "./helperFunctions";
 import ImageKit from "imagekit-javascript";
 
@@ -8,39 +8,81 @@ var imagekit = new ImageKit({
 });
 
 // ContentObject: displays a single image, lazy-loads high-res
-function ContentObject({ image, neighbors, id, mode, spreadFactor=1, imageKit }) {
-
+function ContentObject({ image, neighbors, id, mode, spreadFactor = 1 /*, imageKit*/ }) {
   const [largeImageLoaded, setLargeImageLoaded] = useState(image);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    (async () => {
-      if (!imageKit) {
-        const largeImageUrl = image.replace("smaller_images/", "").replace("_10X", "");
-        await loadImage(largeImageUrl);
-        setLargeImageLoaded(largeImageUrl);
-      }
-      else {
-        const fileName = image.replace("assets/images/speedRun/","");
-        /*
-        const imageURL = imagekit.url({
-            path: `/speedRun2/${fileName}`,
-            urlEndpoint: "https://ik.imagekit.io/ernestwangphotos",
-        });
-        */
-        //await loadImage(imageURL);
-        //setLargeImageLoaded(imageURL);
+    let observer;
+    let img = null;
+    let isCancelled = false;
 
-      }
-    })();
-  }, []);
+    const loadImageWithAbort = (src) =>
+      new Promise((resolve, reject) => {
+        img = new Image();
+        img.onload = () => resolve(src);
+        img.onerror = reject;
+        img.src = src;
+      });
 
-  const widthD = neighbors.find(item => item.index === id).ratio;
+    observer = new IntersectionObserver(
+      async ([entry], obs) => {
+        if (entry.isIntersecting && !isCancelled) {
+          // always use local lazy‑load URL
+          const finalImageUrl = image
+            .replace('smaller_images/', '')
+            .replace('_10X', '');
+
+          // if you want to re‑enable imageKit later, uncomment below:
+          /*
+          const finalImageUrl = imageKit.url({
+            path: `/speedRun2/${image.replace('assets/images/speedRun/', '')}`,
+            urlEndpoint: 'https://ik.imagekit.io/ernestwangphotos',
+          });
+          */
+
+          try {
+            await loadImageWithAbort(finalImageUrl);
+            if (!isCancelled) {
+              setLargeImageLoaded(finalImageUrl);
+            }
+          } catch (err) {
+            console.error('Image failed to load', err);
+          }
+          obs.disconnect();
+        }
+      },
+      { rootMargin: '150px' }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      isCancelled = true;
+      if (observer && containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+      if (img) {
+        img.onload = null;
+        img.onerror = null;
+        img.src = '';
+      }
+    };
+  }, [image /*, imageKit*/]);
+
+  const widthD = neighbors.find(item => item.index === id)?.ratio || 1;
+
   return (
     <div
+      ref={containerRef}
       className="Img"
       style={{
-        width: !mode ? (widthD * 100 * spreadFactor) + "%" : (100 * spreadFactor).toString()+"%",
-        backgroundImage: `url(${largeImageLoaded})`
+        width: !mode
+          ? `${widthD * 100 * spreadFactor}%`
+          : `${100 * spreadFactor}%`,
+        backgroundImage: `url(${largeImageLoaded})`,
       }}
     />
   );

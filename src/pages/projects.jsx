@@ -1,6 +1,5 @@
 import { DescriptionObjectHolder } from "../componets/contentObject";
 import { useState, useEffect } from "react";
-import { useAbortController } from "../abortController";
 
 export default function Projects() {
     const [phoneMode, setPhoneMode] = useState((window.outerWidth <= 1015 ? true : false));
